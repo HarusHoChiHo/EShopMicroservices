@@ -1,4 +1,4 @@
-namespace CatalogAPI.Products.CreateProduct;
+namespace CatalogAPI.Data.Products.CreateProduct;
 
 public record CreateProductRequest(
     string       Name,

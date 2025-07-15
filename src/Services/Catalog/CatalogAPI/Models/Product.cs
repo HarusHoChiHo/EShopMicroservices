@@ -1,4 +1,4 @@
-namespace CatalogAPI.Models;
+namespace CatalogAPI.Data.Models;
 
 public class Product
 {

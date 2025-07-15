@@ -1,14 +1,24 @@
-﻿namespace CatalogAPI.Products.GetProduct;
+﻿using CatalogAPI.Data.Models;
 
-public struct GetProductQuery() : IQuery<GetProductResult>;
-public struct GetProductResult(IEnumerable<Product> products);
+namespace CatalogAPI.Data.Products.GetProduct;
 
-internal class GetProductsHandler(IDocumentSession session) : IQueryHandler<GetProductQuery, GetProductResult>
+public record GetProductsQuery() : IQuery<GetProductsResult>;
+
+public record GetProductsResult(IEnumerable<Product> Products);
+
+internal class GetProductsQueryHandler(IDocumentSession                 session,
+                                       ILogger<GetProductsQueryHandler> logger)
+    : IQueryHandler<GetProductsQuery, GetProductsResult>
 {
 
-    public Task<GetProductResult> Handle(GetProductQuery   request,
-                                         CancellationToken cancellationToken)
+    public async Task<GetProductsResult> Handle(GetProductsQuery  query,
+                                                CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        logger.LogInformation("GetProductsQueryHandler.Handle called with {@Query}", query);
+
+        var products = await session.Query<Product>()
+                                    .ToListAsync(cancellationToken);
+
+        return new GetProductsResult(products);
     }
 }

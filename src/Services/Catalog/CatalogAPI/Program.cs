@@ -2,10 +2,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
 builder.Services.AddCarter();
+var assemblies = typeof(Program).Assembly;
 builder.Services.AddMediatR(config =>
                             {
-                                config.RegisterServicesFromAssemblies(typeof(Program).Assembly);
+                                config.RegisterServicesFromAssemblies(assemblies);
+                                config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+                                config.AddOpenBehavior(typeof(LoggingBehavior<,>));
                             });
+
+builder.Services.AddValidatorsFromAssembly(assemblies);
+
 builder.Services.AddMarten(opts =>
                            {
                                opts.Connection(builder.Configuration.GetConnectionString("Database")!);
@@ -13,9 +19,20 @@ builder.Services.AddMarten(opts =>
                            })
        .UseLightweightSessions();
 
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.InitializeMartenWith<CatalogInitialData>();
+}
+
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.MapCarter();
+
+app.UseExceptionHandler(options =>
+                        {
+                        });
 
 app.Run();
