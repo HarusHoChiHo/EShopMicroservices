@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <RootNamespace>Discount.Grpc</RootNamespace>
+        <UserSecretsId>2f976168-53c2-47a2-99a1-522048544ad9</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Grpc.AspNetCore" Version="2.60.0" />
+        <PackageReference Include="Mapster" Version="7.4.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.1">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Protos\discount.proto" />
+      <Protobuf Include="Protos\discount.proto" GrpcServices="Server"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
+    </ItemGroup>
+
+</Project>
