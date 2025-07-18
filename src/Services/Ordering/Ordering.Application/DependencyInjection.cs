@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Ordering.Application;
 
@@ -8,7 +9,7 @@ public static class DependencyInjection
     {
         services.AddMediatR(config =>
                             {
-                                config.RegisterServicesFromAssemblies(typeof(DependencyInjection).Assembly);
+                                config.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
                             });
 
         return services;
