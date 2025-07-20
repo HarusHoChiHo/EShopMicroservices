@@ -38,7 +38,7 @@ public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger)
                                                                         (
                                                                             exception.Message,
                                                                             exception.GetType().Name,
-                                                                            context.Response.StatusCode = StatusCodes.Status400BadRequest
+                                                                            context.Response.StatusCode = StatusCodes.Status404NotFound
                                                                         ),
                                                                     _ =>
                                                                         (
